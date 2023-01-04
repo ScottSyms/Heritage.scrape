@@ -48,6 +48,9 @@ class SitesSpider(scrapy.Spider):
         # Remove the HTML from the response body
         text = bs4.BeautifulSoup(response.body, "lxml").text.strip()
         text = [line for line in text.split('\n') if line.strip() != '']
+
+        # Remove lines with less than 5 words
+        text = [line for line in text if len(line.split()) > 5]
         text = '\n'.join(text)
 
         # Yield selected reponse fields
