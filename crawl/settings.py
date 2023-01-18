@@ -33,7 +33,15 @@ CONCURRENT_REQUESTS = 64
 #CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
-#COOKIES_ENABLED = False
+COOKIES_ENABLED = False
+COOKIES_PERSISTENCE = True
+COOKIES_PERSISTENCE_DIR = 'cookies'
+
+# ------------------------------------------------------------------------------
+# IN MEMORY STORAGE
+# ------------------------------------------------------------------------------
+
+COOKIES_STORAGE = 'scrapy_cookies.storage.in_memory.InMemoryStorage'
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
@@ -55,6 +63,11 @@ CONCURRENT_REQUESTS = 64
 DOWNLOADER_MIDDLEWARES = {
    'crawl.middlewares.CrawlDownloaderMiddleware': 543,
 }
+
+DOWNLOADER_MIDDLEWARES.update({
+    'scrapy.downloadermiddlewares.cookies.CookiesMiddleware': None,
+    'scrapy_cookies.downloadermiddlewares.cookies.CookiesMiddleware': 700,
+})
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
@@ -83,8 +96,8 @@ ITEM_PIPELINES = {
 
 # Enable and configure HTTP caching (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings
-HTTPCACHE_ENABLED = True
-HTTPCACHE_EXPIRATION_SECS = 86400
+HTTPCACHE_ENABLED = False
+HTTPCACHE_EXPIRATION_SECS = 186400
 # HTTPCACHE_EXPIRATION_SECS = 0
 HTTPCACHE_DIR = 'httpcachenew'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
@@ -97,7 +110,8 @@ TWISTED_REACTOR = 'twisted.internet.asyncioreactor.AsyncioSelectorReactor'
 REDIRECT_ENABLED = True
 # MEDIA_ALLOW_REDIRECTS = True
 AUTOTHROTTLE_ENABLED = True
-CONNECTION_STRING = 'sqlite:////Users/scottsyms/code/HeritageCanada/data/sitecontent.db'
+#CONNECTION_STRING = 'sqlite:////Users/scottsyms/code/HeritageCanada/data/sitecontent2.db'
+CONNECTION_STRING = 'sqlite:////Users/scottsyms/code/HeritageCanada/data/badsites.db'
 
 DOWNLOAD_HANDLERS = {
     "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",

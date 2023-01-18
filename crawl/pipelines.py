@@ -10,7 +10,7 @@ from sqlalchemy import create_engine, Column, Table, ForeignKey, MetaData
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import (
-    Integer, String, Date, DateTime, Float, Boolean, Text)
+    Integer, String, Date, DateTime, Float, Boolean, Text, BLOB)
 from scrapy.utils.project import get_project_settings
 
 
@@ -39,7 +39,13 @@ class Source(Base):
     url=Column(String(255))
     language=Column(String(2))
     text=Column(Text)
-    alturl=Column(String(255))
+    image=Column(BLOB)
+    english=Column(Text)
+    french=Column(Text)
+    spanish=Column(Text)
+    bertscoreenglish=Column(Float)
+    bertscorefrench=Column(Float)
+    bertscorespanish=Column(Float)
 
 class SaveDBPipeline(object):
     def __init__(self):
@@ -57,7 +63,8 @@ class SaveDBPipeline(object):
         page.status=item['status']
         page.pairid=item['pairid']
         page.url=item['url']
-        page.alturl=item['altURL']
+        page.image=item['image']
+        # page.alturl=item['altURL']
         page.language=item['language']
         page.text=item['text']
 
